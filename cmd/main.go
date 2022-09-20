@@ -17,7 +17,7 @@ func main() {
 	singleList.Append("C")
 	fmt.Printf(" list before add %v \n", singleList.PrintAll())
 
-	fmt.Println("inserting : v")
+	fmt.Println("inserting here : v")
 
 	singleList.InsertAt(2, "V")
 
