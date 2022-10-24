@@ -1,7 +1,6 @@
 package list
 
 import (
-	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -29,26 +28,17 @@ func TestSingleList_Append(t *testing.T) {
 func TestSingleList_InsertAt(t *testing.T) {
 	singleListTest := List()
 	var insertindex = 2
-
-	fmt.Printf("Add: A\n")
 	singleListTest.Add("A")
-	fmt.Printf("Add: B\n")
 	singleListTest.Add("B")
-	fmt.Printf("Add: C\n")
 	singleListTest.Add("C")
-	fmt.Printf(" list before add \n")
-	singleListTest.Print()
-	fmt.Println("inserting here : v")
-
 	singleListTest.InsertAt(insertindex, "V")
-	fmt.Printf(" list after add  \n")
-	singleListTest.Print()
-
 	for i := 0; i < singleListTest.Size(); i++ {
 		if i == insertindex {
-			///assert.Equal(t, "V", singleListTest[i])
+			actual, err := singleListTest.Get(insertindex)
+			assert.Nil(t, err)
+			assert.NotNil(t, actual)
+			assert.Equal(t, "V", *actual)
 		}
-
 	}
 
 }
