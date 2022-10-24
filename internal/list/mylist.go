@@ -43,7 +43,6 @@ func (s *singleList) Insert(addStrings ...string) (response interface{}, err err
 	if len(addStrings) == 0 {
 		return nil, errors.New("No string to insert")
 	}
-
 	for i := 0; i < len(addStrings); i++ {
 		if strings.Compare(addStrings[i], "") != 0 {
 			s.InsertAt(s.Size(), addStrings[i])
@@ -55,6 +54,21 @@ func (s *singleList) Insert(addStrings ...string) (response interface{}, err err
 		return nil, containsErr
 	}
 	return nil, nil
+}
+
+func (s *singleList) Get(index int) (returnString *string, err error) {
+	var matchedString string
+	if s.Size() < index {
+		return nil, fmt.Errorf("Array Out of bound")
+	}
+	current := s.head
+	for i := 0; i < s.len; i++ {
+		if i == index {
+			matchedString = current.name
+		}
+		current = current.next
+	}
+	return &matchedString, nil
 }
 
 func (s *singleList) InsertAt(index int, name string) error {

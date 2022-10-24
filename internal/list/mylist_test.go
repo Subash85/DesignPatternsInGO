@@ -65,9 +65,32 @@ func TestSingleList_Insert(t *testing.T) {
 func TestSingleList_Insert_blanks(t *testing.T) {
 
 	singleListTest := List()
-	response, err := singleListTest.Insert("", "", "")
+	response, err := singleListTest.Insert("", "A", "")
 	assert.NotNil(t, err)
 	assert.Equal(t, "Empty strings not inserted", err.Error())
+	assert.Equal(t, 1, singleListTest.Size())
 	assert.Nil(t, response)
+
+}
+
+func TestSingleList_Get(t *testing.T) {
+
+	singleListTest := List()
+	response, err := singleListTest.Insert("a", "b", "C")
+	assert.Nil(t, err)
+	assert.Nil(t, response)
+	retriveString, err := singleListTest.Get(2)
+	assert.Nil(t, err)
+	assert.NotNil(t, retriveString)
+	assert.Equal(t, "C", *retriveString)
+
+}
+
+func TestSingleList_Get_OutOfBound(t *testing.T) {
+	singleListTest := List()
+	retriveString, err := singleListTest.Get(2)
+	assert.NotNil(t, err)
+	assert.Nil(t, retriveString)
+	assert.Equal(t, "Array Out of bound", err.Error())
 
 }
