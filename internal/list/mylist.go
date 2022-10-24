@@ -2,7 +2,6 @@ package list
 
 import (
 	"fmt"
-	"strings"
 )
 
 type ele struct {
@@ -13,6 +12,7 @@ type ele struct {
 type singleList struct {
 	len  int
 	head *ele
+	tail *ele
 }
 
 func InitList() *singleList {
@@ -20,20 +20,6 @@ func InitList() *singleList {
 }
 
 func (s *singleList) Add(name string) {
-	ele := &ele{
-		name: name,
-	}
-	if s.head == nil {
-		s.head = ele
-	} else {
-		ele.next = s.head
-		s.head = ele
-	}
-	s.len++
-	return
-}
-
-func (s *singleList) Append(name string) {
 	ele := &ele{
 		name: name,
 	}
@@ -51,7 +37,7 @@ func (s *singleList) Append(name string) {
 }
 func (s *singleList) InsertAt(index int, name string) error {
 	//singleList := s
-	if s.len < 0{
+	if s.len < 0 {
 		return fmt.Errorf("removeBack: List is empty")
 	}
 	ele := &ele{
@@ -62,7 +48,7 @@ func (s *singleList) InsertAt(index int, name string) error {
 		s.len++
 	} else if index == 0 {
 		current := s.head
-		s.head=ele
+		s.head = ele
 		s.head.next = current
 		current = s.head
 		s.len++
@@ -74,20 +60,26 @@ func (s *singleList) InsertAt(index int, name string) error {
 		current.next = ele
 		s.len++
 	} else {
-		current := s.head
-		for i := 0; i < s.len; i++ {
-
-			if i == index-1 && index > 0 {
-				swap := current.next
-				current.next = ele
-				ele.next = swap
-				s.len++
-			}
-			current = current.next
-		}
+		s.loopSwap(index, ele)
 	}
 	return nil
 }
+
+func (s *singleList) loopSwap(index int, eleSwap *ele) *ele {
+	current := s.head
+	for i := 0; i < s.len; i++ {
+
+		if i == index-1 && index > 0 {
+			swap := current.next
+			current.next = eleSwap
+			eleSwap.next = swap
+			s.len++
+		}
+		current = current.next
+	}
+	return current
+}
+
 func (s *singleList) RemoveFront() error {
 	if s.head == nil {
 		return fmt.Errorf("List is empty")
@@ -126,22 +118,19 @@ func (s *singleList) Front() (string, error) {
 func (s *singleList) Size() int {
 	return s.len
 }
-func (s *singleList) PrintAll()  string {
+func (s *singleList) Print() {
 	next := s.head
 
-	var listToString  = "["
+	print("[")
 
 	for i := 1; i <= s.len; i++ {
-
-		listToString += next.name
+		print(next.name)
 		if i != s.len {
-			listToString +=","
+			print(",")
 		}
 		next = next.next
 	}
-	listToString += "]"
-
-	return strings.TrimSpace(listToString)
+	print("]")
 }
 
 func (s *singleList) Traverse() error {

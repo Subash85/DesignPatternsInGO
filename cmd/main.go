@@ -14,16 +14,18 @@ func main() {
 	fmt.Printf("Add: B\n")
 	singleList.Add("B")
 	fmt.Printf("Add: C\n")
-	singleList.Append("C")
-	fmt.Printf(" list before add %v \n", singleList.PrintAll())
+	singleList.Add("C")
+	println("list before add ")
+	singleList.Print()
 
-	fmt.Println("inserting here : v")
+	//fmt.Println("inserting here : v")
 
 	singleList.InsertAt(2, "V")
 
-	fmt.Printf(" list after  add %v \n", singleList.PrintAll())
+	println("list after add")
+	singleList.Print()
 
-	fmt.Printf("Size: %d \n", singleList.Size())
+	fmt.Printf("\n Size: %d", singleList.Size())
 
 	//err := singleList.Traverse()
 	//if err != nil {
