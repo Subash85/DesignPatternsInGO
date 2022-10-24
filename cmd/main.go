@@ -8,58 +8,29 @@ import "LinkedListGo/internal/list"
 // add , insert and remove  . add unit test file. Add [name1, Name2]
 
 func main() {
-	singleList := list.InitList()
+	singleList := list.List()
 	fmt.Printf("Add: A\n")
 	singleList.Add("A")
 	fmt.Printf("Add: B\n")
 	singleList.Add("B")
 	fmt.Printf("Add: C\n")
 	singleList.Add("C")
-	println("list before add ")
+	println("list before add \n")
 	singleList.Print()
-
-	//fmt.Println("inserting here : v")
 
 	singleList.InsertAt(2, "V")
 
-	println("list after add")
+	println("list after add\n")
+	singleList.Print()
+
+	_, err := singleList.Insert("X", "Y", "", "Q")
+	if err != nil {
+		println(err.Error())
+	}
+	println("list after Multiple inserts")
+
 	singleList.Print()
 
 	fmt.Printf("\n Size: %d", singleList.Size())
 
-	//err := singleList.Traverse()
-	//if err != nil {
-	//	fmt.Println(err.Error())
-	//}
-
-	/*	fmt.Printf("RemoveFront\n")
-		err := singleList.RemoveFront()
-		if err != nil {
-			fmt.Printf("RemoveFront Error: %s\n", err.Error())
-		}
-
-		fmt.Printf("RemoveBack\n")
-		err = singleList.RemoveBack()
-		if err != nil {
-			fmt.Printf("RemoveBack Error: %s\n", err.Error())
-		}
-
-		fmt.Printf("RemoveBack\n")
-		err = singleList.RemoveBack()
-		if err != nil {
-			fmt.Printf("RemoveBack Error: %s\n", err.Error())
-		}
-
-		fmt.Printf("RemoveBack\n")
-		err = singleList.RemoveBack()
-		if err != nil {
-			fmt.Printf("RemoveBack Error: %s\n", err.Error())
-		}
-
-		err = singleList.Traverse()
-		if err != nil {
-			fmt.Println(err.Error())
-		}
-
-		fmt.Printf("Size: %d\n", singleList.Size())*/
 }

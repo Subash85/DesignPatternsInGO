@@ -1,7 +1,9 @@
 package list
 
 import (
+	"errors"
 	"fmt"
+	"strings"
 )
 
 type ele struct {
@@ -15,7 +17,7 @@ type singleList struct {
 	tail *ele
 }
 
-func InitList() *singleList {
+func List() *singleList {
 	return &singleList{}
 }
 
@@ -35,6 +37,26 @@ func (s *singleList) Add(name string) {
 	s.len++
 	return
 }
+
+func (s *singleList) Insert(addStrings ...string) (response interface{}, err error) {
+	var containsErr = errors.New("No Error")
+	if len(addStrings) == 0 {
+		return nil, errors.New("No string to insert")
+	}
+
+	for i := 0; i < len(addStrings); i++ {
+		if strings.Compare(addStrings[i], "") != 0 {
+			s.InsertAt(s.Size(), addStrings[i])
+		} else {
+			containsErr = errors.New("Empty strings not inserted")
+		}
+	}
+	if strings.Compare(containsErr.Error(), "No Error") != 0 {
+		return nil, containsErr
+	}
+	return nil, nil
+}
+
 func (s *singleList) InsertAt(index int, name string) error {
 	//singleList := s
 	if s.len < 0 {
@@ -118,11 +140,10 @@ func (s *singleList) Front() (string, error) {
 func (s *singleList) Size() int {
 	return s.len
 }
+
 func (s *singleList) Print() {
 	next := s.head
-
 	print("[")
-
 	for i := 1; i <= s.len; i++ {
 		print(next.name)
 		if i != s.len {

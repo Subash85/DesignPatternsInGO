@@ -7,7 +7,7 @@ import (
 )
 
 func TestSingleList_Add(t *testing.T) {
-	TestsingleList := InitList()
+	TestsingleList := List()
 	name := "First name"
 	TestsingleList.Add(name + "a")
 	TestsingleList.Add(name + "b")
@@ -16,7 +16,7 @@ func TestSingleList_Add(t *testing.T) {
 }
 
 func TestSingleList_Append(t *testing.T) {
-	TestsingleList := InitList()
+	TestsingleList := List()
 	name := "First name"
 	TestsingleList.Add(name + "a")
 	TestsingleList.Add(name + "b")
@@ -27,7 +27,7 @@ func TestSingleList_Append(t *testing.T) {
 }
 
 func TestSingleList_InsertAt(t *testing.T) {
-	singleListTest := InitList()
+	singleListTest := List()
 	var insertindex = 2
 
 	fmt.Printf("Add: A\n")
@@ -46,8 +46,28 @@ func TestSingleList_InsertAt(t *testing.T) {
 
 	for i := 0; i < singleListTest.Size(); i++ {
 		if i == insertindex {
-			assert.Equal(t, "V", singleListTest)
+			///assert.Equal(t, "V", singleListTest[i])
 		}
 
 	}
+
+}
+
+func TestSingleList_Insert(t *testing.T) {
+
+	singleListTest := List()
+	singleListTest.Add("A")
+	response, err := singleListTest.Insert("a", "b", "C")
+	assert.Nil(t, err)
+	assert.Nil(t, response)
+
+}
+func TestSingleList_Insert_blanks(t *testing.T) {
+
+	singleListTest := List()
+	response, err := singleListTest.Insert("", "", "")
+	assert.NotNil(t, err)
+	assert.Equal(t, "Empty strings not inserted", err.Error())
+	assert.Nil(t, response)
+
 }
