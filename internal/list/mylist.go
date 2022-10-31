@@ -38,41 +38,47 @@ func (s *singleList) Add(name string) {
 	return
 }
 
-func (s *singleList) Insert(addStrings ...string) (response interface{}, err error) {
-	var containsErr = errors.New("No Error")
+func (s *singleList) Insert(addStrings ...string) (res string, err error) {
+
 	if len(addStrings) == 0 {
-		return nil, errors.New("No string to insert")
+		return "", errors.New("No string to insert")
 	}
-	for i := 0; i < len(addStrings); i++ {
-		if strings.Compare(addStrings[i], "") != 0 {
-			s.InsertAt(s.Size(), addStrings[i])
+	var containsErr error = nil
+	for _, word := range addStrings {
+		if !checkEmptyString(word) {
+			s.InsertAt(s.Size(), word)
 		} else {
 			containsErr = errors.New("Empty strings not inserted")
 		}
 	}
-	if strings.Compare(containsErr.Error(), "No Error") != 0 {
-		return nil, containsErr
+	if containsErr != nil {
+		return "", containsErr
 	}
-	return nil, nil
+	return "", nil
 }
 
-func (s *singleList) Get(index int) (returnString *string, err error) {
+func checkEmptyString(checkEmpty string) bool {
+	strings.TrimSpace(checkEmpty)
+	return len(checkEmpty) == 0
+}
+
+func (s *singleList) Get(index int) (returnString string, err error) {
 	var matchedString string
 	if s.Size() < index {
-		return nil, fmt.Errorf("Array Out of bound")
+		return "", fmt.Errorf("Array Out of bound")
 	}
 	current := s.head
 	for i := 0; i < s.len; i++ {
 		if i == index {
 			matchedString = current.name
+			break
 		}
 		current = current.next
 	}
-	return &matchedString, nil
+	return matchedString, nil
 }
 
 func (s *singleList) InsertAt(index int, name string) error {
-	//singleList := s
 	if s.len < 0 {
 		return fmt.Errorf("removeBack: List is empty")
 	}
@@ -81,21 +87,14 @@ func (s *singleList) InsertAt(index int, name string) error {
 	}
 	if s.head == nil {
 		s.head = ele
+		s.tail = ele
 		s.len++
 	} else if index == 0 {
-		current := s.head
 		s.head = ele
-		s.head.next = current
-		current = s.head
-		s.len++
-	} else if index == s.len {
-		current := s.head
-		for current.next != nil {
-			current = current.next
-		}
-		current.next = ele
+		s.head.next = s.tail
 		s.len++
 	} else {
+		s.tail = ele
 		s.loopSwap(index, ele)
 	}
 	return nil
@@ -104,16 +103,26 @@ func (s *singleList) InsertAt(index int, name string) error {
 func (s *singleList) loopSwap(index int, eleSwap *ele) *ele {
 	current := s.head
 	for i := 0; i < s.len; i++ {
-
 		if i == index-1 && index > 0 {
-			swap := current.next
+			/*	swap := current.next
+				current.next = eleSwap
+				eleSwap.next = swap*/
+			if current.next != nil {
+				eleSwap.next, current.next = s.swap(current.next, eleSwap)
+			}
 			current.next = eleSwap
-			eleSwap.next = swap
 			s.len++
 		}
 		current = current.next
 	}
 	return current
+}
+
+func (s *singleList) swap(ele1 *ele, ele2 *ele) (swap1 *ele, swap2 *ele) {
+	swap := ele1.next
+	ele1.next = ele2
+	ele2.next = swap
+	return ele1, ele2
 }
 
 func (s *singleList) RemoveFront() error {
