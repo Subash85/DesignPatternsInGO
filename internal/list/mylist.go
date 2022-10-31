@@ -87,18 +87,14 @@ func (s *singleList) InsertAt(index int, name string) error {
 	}
 	if s.head == nil {
 		s.head = ele
-		s.head.next = nil
 		s.tail = ele
-		s.tail.next = nil
 		s.len++
 	} else if index == 0 {
 		s.head = ele
 		s.head.next = s.tail
 		s.len++
-	} else if index == s.len {
-		s.tail = ele
-		s.loopSwap(index, ele)
 	} else {
+		s.tail = ele
 		s.loopSwap(index, ele)
 	}
 	return nil
@@ -107,16 +103,26 @@ func (s *singleList) InsertAt(index int, name string) error {
 func (s *singleList) loopSwap(index int, eleSwap *ele) *ele {
 	current := s.head
 	for i := 0; i < s.len; i++ {
-
 		if i == index-1 && index > 0 {
-			swap := current.next
+			/*	swap := current.next
+				current.next = eleSwap
+				eleSwap.next = swap*/
+			if current.next != nil {
+				eleSwap.next, current.next = s.swap(current.next, eleSwap)
+			}
 			current.next = eleSwap
-			eleSwap.next = swap
 			s.len++
 		}
 		current = current.next
 	}
 	return current
+}
+
+func (s *singleList) swap(ele1 *ele, ele2 *ele) (swap1 *ele, swap2 *ele) {
+	swap := ele1.next
+	ele1.next = ele2
+	ele2.next = swap
+	return ele1, ele2
 }
 
 func (s *singleList) RemoveFront() error {

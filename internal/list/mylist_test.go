@@ -99,7 +99,6 @@ func TestSingleList_Get(t *testing.T) {
 	response, err := singleListTest.Insert("a", "b", "C")
 	assert.Nil(t, err)
 	assert.Equal(t, "", response)
-	singleListTest.Print()
 	retriveString, err := singleListTest.Get(2)
 	assert.Nil(t, err)
 	assert.NotNil(t, retriveString)
